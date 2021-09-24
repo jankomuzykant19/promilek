@@ -1,0 +1,90 @@
+body{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+#googleMap {
+    height: 775px;
+    width: 775px;
+    margin: 12px;
+    padding: 0px;
+}
+section{
+    width: 50%;
+}
+
+fieldset {
+    margin: 2em 0;
+    padding: 1em 2em;
+    border: solid 1px #ccc;
+    border-radius: 6px;
+    min-width: 200px;
+}
+
+legend {
+    font-size: 1.25em;
+    padding: 0 .025em;
+    color: #999;
+}
+
+label {
+    display: block;
+    margin-top: 1em;
+}
+
+.checks label {
+    margin-top: 0;
+}
+
+label:first-of-type {
+    margin-top: 0;
+}
+
+input {
+    padding: .5em;
+    border: solid 1px #999;
+}
+
+input[type=text] {
+    width: 15em;
+}
+
+textarea {
+    min-height: 8em;
+    min-width: 30em;
+    padding: .5em;
+    border: solid 1px #999;
+}
+
+.checks {
+    margin-bottom: 1em;
+}
+
+.checks p {
+    margin-bottom: 0;
+}
+
+input[type="checkbox"] + label, input[type="radio"] + label {
+    display: inline-block;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+input[type="radio"] {
+    margin-left: 1.5em;
+    margin-right: 0;
+}
+
+input[type="radio"]:first-of-type {
+    margin-left: 0;
+}
+
+input[type="submit"], input[type="reset"], #toggle{
+    padding: .5em 1em;
+    border-radius: 6px;
+    background-color: #333;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    font-size: .8em;
+}
