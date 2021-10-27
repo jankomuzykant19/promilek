@@ -1,0 +1,411 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "css-api",
+    "version": "1.0",
+    "description": "Convergent Self-Service",
+    "contact": {
+      "name": "Tomasz Skonieczny",
+      "email": "tomasz.skonieczny@hycom.digital"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://customer-api-selfcare.dev.hycom.pl"
+    },
+    {
+      "url": "https://customer-selfcare.local",
+      "description": ""
+    }
+  ],
+  "components": {
+    "schemas": {
+      "User": {
+        "title": "User",
+        "type": "object",
+        "description": "",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the given user (GUID).",
+            "readOnly": true
+          },
+          "username": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "emailVerified": {
+            "type": "boolean",
+            "description": "Set to true if the user's email has been verified.",
+            "default": false
+          },
+          "enabled": {
+            "type": "boolean",
+            "default": true
+          },
+          "locked": {
+            "type": "boolean",
+            "default": false
+          },
+          "expired": {
+            "type": "boolean",
+            "default": false
+          },
+          "authorities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Role"
+            }
+          }
+        },
+        "required": [
+          "firstName",
+          "lastName",
+          "email"
+        ]
+      },
+      "UserUpdate": {
+        "title": "User",
+        "type": "object",
+        "description": "",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "emailVerified": {
+            "type": "boolean",
+            "description": "Set to true if the user's email has been verified.",
+            "default": false
+          },
+          "enabled": {
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "PatchBody": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/PatchDocument"
+        }
+      },
+      "PatchDocument": {
+        "type": "object",
+        "description": "A JSONPatch document as defined by RFC 6902",
+        "required": [
+          "op",
+          "path"
+        ],
+        "properties": {
+          "op": {
+            "type": "string",
+            "description": "The operation to be performed",
+            "enum": [
+              "add",
+              "remove",
+              "replace",
+              "move",
+              "copy",
+              "test"
+            ]
+          },
+          "path": {
+            "type": "string",
+            "description": "A JSON-Pointer"
+          },
+          "value": {
+            "type": "object",
+            "description": "The value to be used within the operations."
+          },
+          "from": {
+            "type": "string",
+            "description": "A string containing a JSON Pointer value."
+          }
+        }
+      },
+      "Customer": {
+        "title": "Customer",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the client."
+          },
+          "externalId": {
+            "type": "string",
+            "description": "External unique identifier of the client."
+          },
+          "contactData": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "vatId": {
+            "type": "string"
+          },
+          "taxRegistrationNo": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string",
+            "description": "Country. ISO 3166-2 alpha-2 code of country."
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "description": ""
+      },
+      "Address": {
+        "title": "Address",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "firstname": {
+            "type": "string",
+            "maxLength": 80
+          },
+          "lastname": {
+            "type": "string",
+            "maxLength": 80
+          },
+          "companyName": {
+            "type": "string",
+            "maxLength": 80
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 40
+          },
+          "fax": {
+            "type": "string",
+            "maxLength": 40
+          },
+          "streetname": {
+            "type": "string",
+            "example": "9th Avenue",
+            "maxLength": 60
+          },
+          "houseno": {
+            "type": "string",
+            "maxLength": 10
+          },
+          "postalcode": {
+            "type": "string",
+            "example": "10199",
+            "maxLength": 10
+          },
+          "city": {
+            "type": "string",
+            "example": "New York",
+            "maxLength": 60
+          },
+          "district": {
+            "type": "string",
+            "maxLength": 40
+          },
+          "region": {
+            "type": "string",
+            "example": "NY",
+            "description": "Region (state, province, county). ISO 3166-2 code of region (up to 3 chars).",
+            "maxLength": 3
+          },
+          "country": {
+            "type": "string",
+            "example": "US",
+            "description": "Country. ISO 3166-2 alpha-2 code of country.",
+            "maxLength": 2
+          }
+        },
+        "required": [
+          "country"
+        ]
+      },
+      "Role": {
+        "title": "Role",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "authority": {
+            "type": "string"
+          }
+        }
+      },
+      "JsonPatch": {
+        "title": "JsonPatch",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "Contract": {
+        "title": "Contract",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique contract identifier"
+          },
+          "status": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ContractType"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "signDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "premise": {
+            "type": "string"
+          }
+        }
+      },
+      "ContractStatus": {
+        "title": "ContractStatus",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "ContractType": {
+        "title": "ContractType",
+        "type": "object",
+        "description": "Type of contract (heat, electricity, etc). Mapped on the basis of SAP IS-U division.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of type of contract",
+            "example": "HEAT"
+          },
+          "name": {
+            "type": "string",
+            "description": "",
+            "example": "heating"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "Premise": {
+        "title": "Premise",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "tariffGroup": {
+            "$ref": "#/components/schemas/TariffGroup"
+          }
+        },
+        "required": [
+          "id",
+          "address"
+        ]
+      },
+      "ContractAccount": {
+        "title": "ContractAccount",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "paymentMethodId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "description": "Structure grouping contracts for which same payment agreements apply."
+      },
+      "TariffGroup": {
+        "title": "TariffGroup",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "keycloak-access-token": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "",
+            "tokenUrl": "",
+            "refreshUrl": "",
+            "scopes": {}
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/dummy": {
+      "get": {
+        "operationId": "getdummy",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}
