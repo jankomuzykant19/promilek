@@ -4,28 +4,40 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Promilek</title>
     <link th:href="@{submit.css}" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://www.google.com/recaptcha/api.js" r></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
 
 </head>
 <body>
+<form class="pl-5" action="#" enctype="multipart/form-data" th:action="@{/submit}" th:object="${submit}" method="post"
+      id="form">
 
-<section>
-    <form action="#" enctype="multipart/form-data" th:action="@{/submit}" th:object="${submit}" method="post"
-          id="location-form">
-        <fieldset>
-            <legend>Report a new case</legend>
+    <legend class="display-4">Calculate</legend>
 
-            <label for="weight">Your weight:</label>
-            <input type="number" id="weight" step="0.01" th:field="*{weight}"/>
+    <div class="row">
+        <div class="col-sm">
+            <div class="form-group">
+                <label for="weight">Your weight:</label>
+                <input class="col-xs-2" type="number" id="weight" step="0.01"
+                       th:field="*{weight}"/>
+            </div>
 
-            <label for="height">Your height:</label>
-            <input id="height" type="number" step="0.01" th:field="*{height}"/>
+            <div class="form-group">
+                <label for="height">Your height:</label>
+                <input class="col-xs-2" id="height" type="number" number="3" step="0.01" th:field="*{height}"/>
+            </div>
 
-            <label for="age">Your age:</label>
-            <input id="age" type="number" step="0.01" th:field="*{age}"/>
+            <div class="form-group">
+                <label for="age">Your age:</label>
+                <input class="col-xs-2" id="age" type="number" step="0.01" th:field="*{age}"/>
+            </div>
 
-            <div class="checks">
+            <p>Choose your sex: </p>
+
+            <div class="form-check form-check-inline">
                 <input type="radio" name="formS" id="male" value="true" onclick="radioValueSex()">
                 <label for="male">male</label>
 
@@ -37,30 +49,45 @@
 
             <div class="field_wrapper">
                 <div>
-                    <input type="number" name="field_name[]" value="" step="0.01"/><input type="number" name="field_percentage[]" value="" step="0.01"/>
+                    <input type="number" name="field_name[]" value="" step="0.01"/><input type="number"
+                                                                                          name="field_percentage[]"
+                                                                                          value=""
+                                                                                          step="0.01"/>
                     <a href="javascript:void(0);" class="add_button" title="Add field"><img src="add-icon.png"/></a>
                 </div>
             </div>
-
+        </div>
+        <div class="col-sm">
+            <!--    Invisible fields-->
             <p><input id="amount-of-alcohol" type="hidden" th:field="*{amountOfAlcohol}"/></p>
             <p><input id="metabolysm-parameter" type="hidden" th:field="*{metabolysmParameter}"/></p>
             <p><input id="food-parameter" type="hidden" th:field="*{foodParameter}"/></p>
             <p><input id="sex" type="hidden" th:field="*{sex}"/></p>
+            <!--    Invisible fields-->
 
-            <label for="start-date">Start date:</label>
-            <input type="date" id="start-date" name="startdate" th:field="*{startDate}"/>
+            <div class="form-group">
+                <label for="start-date">Start date:</label>
+                <input type="date" id="start-date" name="startdate" th:field="*{startDate}"/>
+            </div>
 
-            <label for="start-time">Start time:</label>
-            <input type="time" id="start-time" name="starttime" th:field="*{startTime}">
+            <div class="form-group">
+                <label for="start-time">Start time:</label>
+                <input type="time" id="start-time" name="starttime" th:field="*{startTime}">
+            </div>
 
-            <label for="end-date">End date:</label>
-            <input type="date" id="end-date" name="enddate" th:field="*{endDate}"/>
+            <div class="form-group">
+                <label for="end-date">End date:</label>
+                <input type="date" id="end-date" name="enddate" th:field="*{endDate}"/>
+            </div>
 
-            <label for="end-time">Start time:</label>
-            <input type="time" id="end-time" name="endtime" th:field="*{endTime}">
+            <div class="form-group">
+                <label for="end-time">Start time:</label>
+                <input type="time" id="end-time" name="endtime" th:field="*{endTime}">
+            </div>
 
-            <div class="checks">
-                <p>How fast do you burn alcohol?</p>
+            <p>How fast do you burn alcohol?</p>
+
+            <div class="form-check form-check-inline">
 
                 <input type="radio" name="formA" id="slowly" value="1">
                 <label for="slowly">slowly</label>
@@ -72,9 +99,9 @@
                 <label for="quickly">quickly</label>
             </div>
 
-            <div class="checks">
-                <p>How much did you eat before drinking?</p>
+            <p>How much did you eat before drinking?</p>
 
+            <div class="form-check form-check-inline">
                 <input type="radio" name="formF" id="nothing" value="1">
                 <label for="slowly">nothing</label>
 
@@ -85,474 +112,13 @@
                 <label for="quickly">a lot</label>
             </div>
 
-            <p><input type="submit" value="Submit" onclick="calculateAlcoholKGrams(), callAll()"/>
-                <input type="reset" value="Reset"/></p>
+            <p><input class="btn btn-primary" type="submit" value="Submit"
+                      onclick="calculateAlcoholKGrams(), callAll()"/>
+                <input class="btn btn-danger" type="reset" value="Reset"/></p>
             <!--            <div class="g-recaptcha" data-sitekey="6LepSVIcAAAAAAe3o78Oa6KdH7ii0Xd_IKbWVj5b"></div>-->
-        </fieldset>
-    </form>
-</section>
-<section>
-    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
-
-    <ul id="myUL">
-        <li><a href="#">Absolwent (40%)</a></li>
-        <li><a href="#">Agneau Blanc (12.5%)</a></li>
-        <li><a href="#">Agneau Rouge (12.5%)</a></li>
-        <li><a href="#">Almaviva (15%)</a></li>
-        <li><a href="#">Altos Ibericos Crianza (14%)</a></li>
-        <li><a href="#">Anderra Cabernet Sauvignon (13.5%)</a></li>
-        <li><a href="#">Anderra Carmenere (13.5%)</a></li>
-        <li><a href="#">Anderra Sauvignon Blanc (12.5%)</a></li>
-        <li><a href="#">Aperol (11%)</a></li>
-        <li><a href="#">Apothic Red (14%)</a></li>
-        <li><a href="#">Apothic Inferno (16%)</a></li>
-        <li><a href="#">Apothic White (12.5%)</a></li>
-        <li><a href="#">Appasimento Rosso (14.5%)</a></li>
-        <li><a href="#">Appleton Estate 12YO (43%)</a></li>
-        <li><a href="#">Appleton Estate (40%)</a></li>
-        <li><a href="#">Appleton Estate (40%)</a></li>
-        <li><a href="#">Asconi Merlot (13.5%)</a></li>
-        <li><a href="#">Asconi Riseling (12.5%)</a></li>
-        <li><a href="#">Aska Bolgheri Rosso (13.5%)</a></li>
-        <li><a href="#">Atrium (14%)</a></li>
-        <li><a href="#">Averna Amaro Siciliano (29%)</a></li>
-        <li><a href="#">Baden Spatburgunder Pinot Noir Hunn (13%)</a></li>
-        <li><a href="#">Balvenie 14YO (43%)</a></li>
-        <li><a href="#">Balvenie 12YO (40%)</a></li>
-        <li><a href="#">Balvenie 21YO (40%)</a></li>
-        <li><a href="#">Banfi Brunello Di Montalcino (13.5%)</a></li>
-        <li><a href="#">Barbaresco (13.5%)</a></li>
-        <li><a href="#">Barbera Di Alboa (13%)</a></li>
-        <li><a href="#">Bardolino Classico (12%)</a></li>
-        <li><a href="#">Barefoot (13%)</a></li>
-        <li><a href="#">Barolo (14%)</a></li>
-        <li><a href="#">Baron De Bellac Brut (10.5%)</a></li>
-        <li><a href="#">Baron De Bellac Demi-Sec (10.5%)</a></li>
-        <li><a href="#">Bastets Cava Brut (11.5%)</a></li>
-        <li><a href="#">Beau Rivage Blanc (10.5%)</a></li>
-        <li><a href="#">Beau Rivage Demi Sec (11%)</a></li>
-        <li><a href="#">Beau Rivage Moeleux (11%)</a></li>
-        <li><a href="#">Beau Rivage Rouge (13%)</a></li>
-        <li><a href="#">Bel Colle Rosso (11.5%)</a></li>
-        <li><a href="#">Bella Tavola Bianco (11%)</a></li>
-        <li><a href="#">Bella Tabola Rosso (11%)</a></li>
-        <li><a href="#">Belleruche Blanc (13.5%)</a></li>
-        <li><a href="#">Biologik (13.5%)</a></li>
-        <li><a href="#">Blaauwklippen Shiraz (13.5%)</a></li>
-        <li><a href="#">Bols Amaretto (24%)</a></li>
-        <li><a href="#">Bols Bannana (17%)</a></li>
-        <li><a href="#">Bols Blue (21%)</a></li>
-        <li><a href="#">Bols Butterscotch (24%)</a></li>
-        <li><a href="#">Bols Cardamon (24%)</a></li>
-        <li><a href="#">Bols Coracao Triple Sec (38%)</a></li>
-        <li><a href="#">Bols Creme de Cassis (17%)</a></li>
-        <li><a href="#">Bols Cucumber (17%)</a></li>
-        <li><a href="#">Bols Elderflowe (17%)</a></li>
-        <li><a href="#">Bols Genever (42%)</a></li>
-        <li><a href="#">Bols Grenadine Syrop (0%)</a></li>
-        <li><a href="#">Bols Honey (17%)</a></li>
-        <li><a href="#">Bols Kamikaze Blue (30%)</a></li>
-        <li><a href="#">Bols Kiwi (17%)</a></li>
-        <li><a href="#">Bols Lychee (17%)</a></li>
-        <li><a href="#">Bols Mango (17%)</a></li>
-        <li><a href="#">Bols Melon (17%)</a></li>
-        <li><a href="#">Bols Natural Yoghurt (15%)</a></li>
-        <li><a href="#">Bols Peach (17%)</a></li>
-        <li><a href="#">Bols Pineapple Chipotle (17%)</a></li>
-        <li><a href="#">Bols Platinum (40%)</a></li>
-        <li><a href="#">Bols Raspberry (17%)</a></li>
-        <li><a href="#">Bols Sour Apple (17%)</a></li>
-        <li><a href="#">Bols Strawberry (17%)</a></li>
-        <li><a href="#">Bols Wattermelon (17%)</a></li>
-        <li><a href="#">Bocian (40%)</a></li>
-        <li><a href="#">Bordeaux Blanc (12%)</a></li>
-        <li><a href="#">Bordeaux Rogue (13.5%)</a></li>
-        <li><a href="#">Bourgogne Blanc (13%)</a></li>
-        <li><a href="#">Bourgogne Pinot Noir (12.5%)</a></li>
-        <li><a href="#">Bruichladdich 1988/30 (46.2%)</a></li>
-        <li><a href="#">Bruichladdich (48.4%)</a></li>
-        <li><a href="#">Bruichladdich Islay Barley 2011(50%)</a></li>
-        <li><a href="#">Bruichladdich The Classic Laddie(50%)</a></li>
-        <li><a href="#">Bruichladdich The Organic (50%)</a></li>
-        <li><a href="#">Ca D'Archi Bianco (12%)</a></li>
-        <li><a href="#">Ca D'Archi Rosso (13.5%)</a></li>
-        <li><a href="#">Caillou Blanc (13%)</a></li>
-        <li><a href="#">Campari Bitter (25%)</a></li>
-        <li><a href="#">Cana-Rio Cachaca (40%)</a></li>
-        <li><a href="#">Canyon Road Cabernet Sauvigion (13%)</a></li>
-        <li><a href="#">Canyon Road Chardonnay (13%)</a></li>
-        <li><a href="#">Canyon Road Merlot (13%)</a></li>
-        <li><a href="#">Canyon Road Pinot Grigio (13%)</a></li>
-        <li><a href="#">Canyon Road White Zinfandel (13%)</a></li>
-        <li><a href="#">Carlo Rossi Dark Red (12%)</a></li>
-        <li><a href="#">Carlo Rossi Intense Sweet Blackberry (9%)</a></li>
-        <li><a href="#">Carlo Rossi Intense Sweet (11%)</a></li>
-        <li><a href="#">Carlo Rossi Pink Moscato (%)</a></li>
-        <li><a href="#">Carlo Rossi Red (12%)</a></li>
-        <li><a href="#">Carlo Rossi Refresh Mixed Berry(10%)</a></li>
-        <li><a href="#">Carlo Rossi Refresh Peach (10%)</a></li>
-        <li><a href="#">Carlo Rossi Refresh Pomegranate (10%)</a></li>
-        <li><a href="#">Carlo Rossi Refresh Strawberry (10%)</a></li>
-        <li><a href="#">Carlo Rossi Refresh Tropisal Moscato (10.5%)</a></li>
-        <li><a href="#">Carlo Rossi Rose (10.5%)</a></li>
-        <li><a href="#">Carlo Rossi Sweet Red (9%)</a></li>
-        <li><a href="#">Carlo Rossi Sweet White Moscato (9.5%)</a></li>
-        <li><a href="#">Carlo Rossi White (10.5%)</a></li>
-        <li><a href="#">Carlo Rossi White Zinfandel (7.5%)</a></li>
-        <li><a href="#">Carnivor Zinfandel (14.5%)</a></li>
-        <li><a href="#">Carolans (17%)</a></li>
-        <li><a href="#">Casillero Del Diablo Cabernet Sauvignon (12%)</a></li>
-        <li><a href="#">Casillero Del Diablo Carmenere (13.5%)</a></li>
-        <li><a href="#">Casillero Del Diablo Chardonnay (13.5%)</a></li>
-        <li><a href="#">Casillero Del Diablo Late Harvest (13.5%)</a></li>
-        <li><a href="#">Casillero Del Diablo Merlot (13.5%)</a></li>
-        <li><a href="#">Casillero Del Diablo Reserva Especial Chardonnay (13.5%)</a></li>
-        <li><a href="#">Casillero Del Diablo Sauvignon Blanc (13.5%)</a></li>
-        <li><a href="#">Celeste (13.5%)</a></li>
-        <li><a href="#">Centine Bianco (12%)</a></li>
-        <li><a href="#">Centine Toscana (13%)</a></li>
-        <li><a href="#">Chablis (12%)</a></li>
-        <li><a href="#">Chablis 1-Er Cru "Vailons" (13%)</a></li>
-        <li><a href="#">Chablis 1-Er Cru "Vaudevey" (12.5%)</a></li>
-        <li><a href="#">Chablis "Saint Martin" (12.5%)</a></li>
-        <li><a href="#">Chapelle De La Trinite (12.5%)</a></li>
-        <li><a href="#">Chateau Baret Rouge (13%)</a></li>
-        <li><a href="#">Chateau Bel Air Bordeaux Rouge (12.5%)</a></li>
-        <li><a href="#">Chateau Haut Madrac (13%)</a></li>
-        <li><a href="#">Chateau (13%)</a></li>
-        <li><a href="#">Chianti Classico D.O.C.G. Banfi (13%)</a></li>
-        <li><a href="#">Chianti Classico Santa Margherita (13.5%)</a></li>
-        <li><a href="#">Chianti Classico Riserva (13.5%)</a></li>
-        <li><a href="#">Chianti D.O.C.G. Banfi (12.5%)</a></li>
-        <li><a href="#">Chianti D.O.C.G. Cecchi (12.5%)</a></li>
-        <li><a href="#">Cinzano (14.4%)</a></li>
-        <li><a href="#">Cointreau (40%)</a></li>
-        <li><a href="#">Cointreau Noir (40%)</a></li>
-        <li><a href="#">Col Di Sasso (13%)</a></li>
-        <li><a href="#">Consigna Cabernet Sauvignon (13%)</a></li>
-        <li><a href="#">Consigna Chardonnay (13%)</a></li>
-        <li><a href="#">Consigna Merlot (13%)</a></li>
-        <li><a href="#">Contadino Bianco (11%)</a></li>
-        <li><a href="#">Contadino Rosso (11%)</a></li>
-        <li><a href="#">Cordillera (14.5%)</a></li>
-        <li><a href="#">Cordillera Chardonnay (13.5%)</a></li>
-        <li><a href="#">Cordillera (13%)</a></li>
-        <li><a href="#">Coronas (13.5%)</a></li>
-        <li><a href="#">Conton Charlemagne (13%)</a></li>
-        <li><a href="#">Coteaux Bourguignons (12.5%)</a></li>
-        <li><a href="#">19 Crimes Cabernet Sauvignon (13.5%)</a></li>
-        <li><a href="#">19 Crimes Chardonnay (13%)</a></li>
-        <li><a href="#">Crudo Organic Red (14%)</a></li>
-        <li><a href="#">Crudo Organic White (12.5%)</a></li>
-        <li><a href="#">Cuvee Di Cabernet Sauvignon (12.5%)</a></li>
-        <li><a href="#">Dark Horse Cabernet Sauvignon (13.5%)</a></li>
-        <li><a href="#">Dark Horse Chardonnay (13.5%)</a></li>
-        <li><a href="#">Dark Horse Pinot Grigio (13.2%)</a></li>
-        <li><a href="#">Dark Horse Sauvignon Blanc (13.0%)</a></li>
-        <li><a href="#">Da Sergio Organic Inzolia Chardonnay (13%)</a></li>
-        <li><a href="#">Da Sergio Organic Rosso Puglia (13.5%)</a></li>
-        <li><a href="#">De Casta Rosado (13%)</a></li>
-        <li><a href="#">Don Hugo Blanco (11.5%)</a></li>
-        <li><a href="#">Don Hugo Tinto (13%)</a></li>
-        <li><a href="#">Don Melchor Cabernet Sauvignon (14.5%)</a></li>
-        <li><a href="#">Drambuie (40%)</a></li>
-        <li><a href="#">Edna Valley Pinot Noir (14%)</a></li>
-        <li><a href="#">Edna Valley Sauvignon Blanc (13%)</a></li>
-        <li><a href="#">El Silencio Picual (0%)</a></li>
-        <li><a href="#">Escudo Chardonnay (14%)</a></li>
-        <li><a href="#">Escudo Rojo Cabernet Sauvignon (13.5%)</a></li>
-        <li><a href="#">Escudo Rojo Carmenere (14%)</a></li>
-        <li><a href="#">Escudo Rojo (14%)</a></li>
-        <li><a href="#">Esplendor De Vardon Kennett Torres (12%)</a></li>
-        <li><a href="#">Extroso Puglia (14%)</a></li>
-        <li><a href="#">Extroso Rubicone (14%)</a></li>
-        <li><a href="#">Finsbury Gin (37.5%)</a></li>
-        <li><a href="#">Finsbury Wild Strawberry (37.5%)</a></li>
-        <li><a href="#">Finlandia (40%)</a></li>
-        <li><a href="#">Finlandia (37.5%)</a></li>
-        <li><a href="#">Finlandia Cucumber & Mint (37.5%)</a></li>
-        <li><a href="#">Finlandia Wildberry & Rose (37.5%)</a></li>
-        <li><a href="#">Finlandia Redberry (37.5%)</a></li>
-        <li><a href="#">Finlandia Mango (37.5%)</a></li>
-        <li><a href="#">Finlandia Coconut(37.5%)</a></li>
-        <li><a href="#">Finlandia Lime (37.5%)</a></li>
-        <li><a href="#">Finlandia Cranberry (37.5%)</a></li>
-        <li><a href="#">Floralis Moscatel Oro (15%)</a></li>
-        <li><a href="#">Fortant Cabernet Sauvignon (13%)</a></li>
-        <li><a href="#">Fortant Chardonnay (13.5%)</a></li>
-        <li><a href="#">Fortant Sauvignon Blanc (12%)</a></li>
-        <li><a href="#">Forntera After Midnight(12%)</a></li>
-        <li><a href="#">Forntera Cabernet Blush (12%)</a></li>
-        <li><a href="#">Forntera Cabernet Sauvignon (12.5%)</a></li>
-        <li><a href="#">Forntera Carmenera (13%)</a></li>
-        <li><a href="#">Forntera Chardonnay (12%)</a></li>
-        <li><a href="#">Forntera Late Harvest (12%)</a></li>
-        <li><a href="#">Forntera Moonlight (9%)</a></li>
-        <li><a href="#">Forntera Specialities Blanco (9.5%)</a></li>
-        <li><a href="#">Forntera Specialities Tinto (12%)</a></li>
-        <li><a href="#">Forntera Sweet Red (9.5%)</a></li>
-        <li><a href="#">Forntera Moscato (12%)</a></li>
-        <li><a href="#">Forntera Sauvignon Blanc(13%)</a></li>
-        <li><a href="#">Forntera Marlot (12.5%)</a></li>
-        <li><a href="#">Fumaio (12.5%)</a></li>
-        <li><a href="#">Galliano L'Autentico (42.3%)</a></li>
-        <li><a href="#">Galliano Ristretto (30%)</a></li>
-        <li><a href="#">Galliano Vanilla (%)</a></li>
-        <li><a href="#">Gancia (7.5%)</a></li>
-        <li><a href="#">Gancia Asti (7.5%)</a></li>
-        <li><a href="#">Gancia Bianco (16%)</a></li>
-        <li><a href="#">Gancia Brut (11%)</a></li>
-        <li><a href="#">Gancia Extra Dry (18%)</a></li>
-        <li><a href="#">Gancia Frizzante Sweet Rose (9%)</a></li>
-        <li><a href="#">Gancia Frizzante Sweet White (9%)</a></li>
-        <li><a href="#">Gancie Grapefruit (7%)</a></li>
-        <li><a href="#">Gancia Lychee (7%)</a></li>
-        <li><a href="#">Gancia Medium Dry Red (11.5%)</a></li>
-        <li><a href="#">Gancia Medium Dry Whit (10.5%)</a></li>
-        <li><a href="#">Gancia Medium Sweet Rose (11.5%)</a></li>
-        <li><a href="#">Gancia Metodo Classico Asti 24 (7%)</a></li>
-        <li><a href="#">Gancia Metodo Classico 18 (12%)</a></li>
-        <li><a href="#">Gancia Metodo Classico 36 (12%)</a></li>
-        <li><a href="#">Gancia Moscato Rose (7%)</a></li>
-        <li><a href="#">Gancia Peach (7%)</a></li>
-        <li><a href="#">Gancia Pinot Di Pinot Brut (11.5%)</a></li>
-        <li><a href="#">Gancia Prosecco (11.5%)</a></li>
-        <li><a href="#">Gancia Strawbeery (7%)</a></li>
-        <li><a href="#">Gavi (12.5%)</a></li>
-        <li><a href="#">Gazela (9%)</a></li>
-        <li><a href="#">Genoa Signature Red (11%)</a></li>
-        <li><a href="#">Genoa Signature White (%)</a></li>
-        <li><a href="#">Gewurztraminer (14%)</a></li>
-        <li><a href="#">Ghost Pines Chardonnay (14%)</a></li>
-        <li><a href="#">Ghost Pines Zinfandel (14.5%)</a></li>
-        <li><a href="#">Gran Coronas (14.5%)</a></li>
-        <li><a href="#">Gran Mauro Primitivo (14.5%)</a></li>
-        <li><a href="#">Grant's (40%)</a></li>
-        <li><a href="#">Grant's 12 YO (40%)</a></li>
-        <li><a href="#">Grant's 18 YO (40%)</a></li>
-        <li><a href="#">Grant's Smoky (40%)</a></li>
-        <li><a href="#">Grant's Rum Cask Finish (40%)</a></li>
-        <li><a href="#">Grant's Ale Cask (40%)</a></li>
-        <li><a href="#">Gran Vina Sol Chardonnay (13.5%)</a></li>
-        <li><a href="#">Green Mark (40%)</a></li>
-        <li><a href="#">Habitat Blanco (13%)</a></li>
-        <li><a href="#">Habitat (14.5%)</a></li>
-        <li><a href="#">Hemisferio Cabernet Sauvignon (13%)</a></li>
-        <li><a href="#">Hemisferio Carmenere (13.5%)</a></li>
-        <li><a href="#">Hendrick's Gin (41.4%)</a></li>
-        <li><a href="#">Husaria (40%)</a></li>
-        <li><a href="#">Inzolia (12.5%)</a></li>
-        <li><a href="#">Jagermeister (35%)</a></li>
-        <li><a href="#">Jean Leon 3055 Chardonnay (13.5%)</a></li>
-        <li><a href="#">Jean Leon 3055 Merlot/Petit Verdot (14.5%)</a></li>
-        <li><a href="#">Jean Leon Sumoll (13%)</a></li>
-        <li><a href="#">Jean Leon Vinya Gigi (13.5%)</a></li>
-        <li><a href="#">Jean Leon Vinya La Scala (14.5%)</a></li>
-        <li><a href="#">Jean Leon Vinya Le Harve Cabernet Sauvignon (14.5%)</a></li>
-        <li><a href="#">Jean Leon Vinya Le Havre (14.5%)</a></li>
-        <li><a href="#">Jean Leon Vinya Palau Merlot (14%)</a></li>
-        <li><a href="#">Kabinett (Rheinhessen) (9.5%)</a></li>
-        <li><a href="#">Kaufmann (40%)</a></li>
-        <li><a href="#">Koine (12.5%)</a></li>
-        <li><a href="#">Koine (13%)</a></li>
-        <li><a href="#">La Mora (13%)</a></li>
-        <li><a href="#">La Mora Vermentino (12.5%)</a></li>
-        <li><a href="#">La Pettegola Varmentino (13%)</a></li>
-        <li><a href="#">Louis XIII (40%)</a></li>
-        <li><a href="#">Maddonna Del Dono Dolcetto D'Alba (13.5%)</a></li>
-        <li><a href="#">Manso De Velasco (13.5%)</a></li>
-        <li><a href="#">Mapu Sauvignon Blanc (%)</a></li>
-        <li><a href="#">Marimara Estate La Masia Chardonnay (13.5%)</a></li>
-        <li><a href="#">Mas Borras (13.5%)</a></li>
-        <li><a href="#">Matua Sauvignon Blanc (14%)</a></li>
-        <li><a href="#">Mauro Americano (13%)</a></li>
-        <li><a href="#">Mauro Chardonnay (13%)</a></li>
-        <li><a href="#">Mauro Primitivo (14.5%)</a></li>
-        <li><a href="#">Mega Zin (14%)</a></li>
-        <li><a href="#">Metaxa 5* (38%)</a></li>
-        <li><a href="#">Metaxa 7* (48%)</a></li>
-        <li><a href="#">Metaxa 12* (40%)</a></li>
-        <li><a href="#">Metaxa Angels Treasure (42.2%)</a></li>
-        <li><a href="#">Metaxa Private Reserve (40%)</a></li>
-        <li><a href="#">Mirassou Chardonnay (13.8%)</a></li>
-        <li><a href="#">Mirassou Merloat (13.5%)</a></li>
-        <li><a href="#">Mirassou Moscato (7.5%)</a></li>
-        <li><a href="#">Mirassou Pinot Grigio(13%)</a></li>
-        <li><a href="#">Mirassou Pinot Noir(13%)</a></li>
-        <li><a href="#">Mixtus Cabernet Merlot (12%)</a></li>
-        <li><a href="#">Mixtus Chardonnay (12.5%)</a></li>
-        <li><a href="#">Montagny (13%)</a></li>
-        <li><a href="#">Monte Di Cello Chardonnay (12%)</a></li>
-        <li><a href="#">Moreau Blanc (12%)</a></li>
-        <li><a href="#">Moreau Bourgogne Chardonnay (12.5%)</a></li>
-        <li><a href="#">Mount Gay 1703 (43%)</a></li>
-        <li><a href="#">Mount Gay Black Barrel (43%)</a></li>
-        <li><a href="#">Mount Gay Eclipse (40%)</a></li>
-        <li><a href="#">Mount Gay XO (43%)</a></li>
-        <li><a href="#">Mount Cadet Blanc (12.5%)</a></li>
-        <li><a href="#">Mount Cadet Reserve Graves Rouge (13%)</a></li>
-        <li><a href="#">Mount Cadet Rouge (12.5%)</a></li>
-        <li><a href="#">Mucho Mas Blanco (12.5%)</a></li>
-        <li><a href="#">Mucho Mas Tinto (14%)</a></li>
-        <li><a href="#">Monkey Shoulder (40%)</a></li>
-        <li><a href="#">Nature De Fortant Cabernet Sauvignon (13%)</a></li>
-        <li><a href="#">Nature De Fortant Chardonnay (12%)</a></li>
-        <li><a href="#">Natureo Muscat White (0.5%)</a></li>
-        <li><a href="#">Noole Blanc (13%)</a></li>
-        <li><a href="#">Noole Rouge (11.5%)</a></li>
-        <li><a href="#">Oceanus (12.5%)</a></li>
-        <li><a href="#">Octomore 09.1 (59.1%)</a></li>
-        <li><a href="#">Octomore 10.1 (59.8%)</a></li>
-        <li><a href="#">Octomore 11.3 (61.7%)</a></li>
-        <li><a href="#">Ordha Rare Cask Reserve 21 YO (%)</a></li>
-        <li><a href="#">Offley LBV Port (20.5%)</a></li>
-        <li><a href="#">Offley Ruby Port (19.5%)</a></li>
-        <li><a href="#">Offley White Port (19.5%)</a></li>
-        <li><a href="#">Offley 10 Years Old Port (20%)</a></li>
-        <li><a href="#">Old Pascas Blanco (37.5%)</a></li>
-        <li><a href="#">Old Pascas Negro (37.5%)</a></li>
-        <li><a href="#">Old Smuggler (40%)</a></li>
-        <li><a href="#">Ormarine Picpoul De Pinet (12.5%)</a></li>
-        <li><a href="#">Palace Vodka (40%)</a></li>
-        <li><a href="#">Parliament Vodka (40%)</a></li>
-        <li><a href="#">Passoa (15%)</a></li>
-        <li><a href="#">Passoa Festa (14.9%)</a></li>
-        <li><a href="#">Penfolds RWT (14.5%)</a></li>
-        <li><a href="#">Penfolds ST. Henri Shiraz (14.5%)</a></li>
-        <li><a href="#">Pinot Grigio (12%)</a></li>
-        <li><a href="#">Pinot Noir (12.5%)</a></li>
-        <li><a href="#">Port Charlotte 10YO/Islay Barley 2012(50%)</a></li>
-        <li><a href="#">Prosecco Borgo Del Col Alto (11%)</a></li>
-        <li><a href="#">Proseco Di Conegliano E Valdobbiadene (11%)</a></li>
-        <li><a href="#">Prosecco P (11%)</a></li>
-        <li><a href="#">Pulpo (12.5%)</a></li>
-        <li><a href="#">Rajska Cytrusówka Grejfrut (30%)</a></li>
-        <li><a href="#">Rajska Cytrusówka Limonka (30%)</a></li>
-        <li><a href="#">Rajska Cytrusówka Mango (30%)</a></li>
-        <li><a href="#">Rajska Cytrusówka Cytryna z Marakują (30%)</a></li>
-        <li><a href="#">Rajska Cytrusówka Cytryna z Melonem (30%)</a></li>
-        <li><a href="#">Rancho Zabaco Zinfandel (14.5%)</a></li>
-        <li><a href="#">Remy Martin Accord Royal 1738 (40%)</a></li>
-        <li><a href="#">Remy Martin VSOP (40%)</a></li>
-        <li><a href="#">Remy Martin XO (%)</a></li>
-        <li><a href="#">Reserve Mouton Cadet Bordeaux Blanc (12%)</a></li>
-        <li><a href="#">Reserve Mouton Cadet Bordeaux Rogue (13.5%)</a></li>
-        <li><a href="#">Riesling (12.5%)</a></li>
-        <li><a href="#">Riesling Gourment (11%)</a></li>
-        <li><a href="#">Riesling (Mosel) (11.5%)</a></li>
-        <li><a href="#">Riesling Renaissance (11.5%)</a></li>
-        <li><a href="#">Rosemount Diamond Cellars Grenache (13.5%)</a></li>
-        <li><a href="#">Rosemount Diamond Cellars Gewurztraminer (10%)</a></li>
-        <li><a href="#">Russian Standard Cloisonne Edition (40%)</a></li>
-        <li><a href="#">Russian Standard (40%)</a></li>
-        <li><a href="#">Russian Standard Hermitage (40%)</a></li>
-        <li><a href="#">Russian Standard Lyubavin (Gold) (40%)</a></li>
-        <li><a href="#">Russian Standard Original (40%)</a></li>
-        <li><a href="#">Russian Standard Platinum (40%)</a></li>
-        <li><a href="#">Sailor Jerry (40%)</a></li>
-        <li><a href="#">Salmos (14%)</a></li>
-        <li><a href="#">Sangre De Toro Chardonnay Selection (13%)</a></li>
-        <li><a href="#">Sangre De Toro Tempranillo (13.5%)</a></li>
-        <li><a href="#">Sangre De Toro Vardejo (13%)</a></li>
-        <li><a href="#">Sangria (7.5%)</a></li>
-        <li><a href="#">Santa Digna Cabernet Sauvignon (14%)</a></li>
-        <li><a href="#">Santa Digna Cabernet (14.5%)</a></li>
-        <li><a href="#">Santa Digna Cabernet Sauvignon Rose (13.5%)</a></li>
-        <li><a href="#">San Valentin Red (14%)</a></li>
-        <li><a href="#">San Valentin White (11%)</a></li>
-        <li><a href="#">Seleccion Premium (13.5%)</a></li>
-        <li><a href="#">Sierra Antiguo (40%)</a></li>
-        <li><a href="#">Sierra Cafe (25%)</a></li>
-        <li><a href="#">Sierra Tequila (40%)</a></li>
-        <li><a href="#">Sierra Tequila Milenario Anejo (41.5%)</a></li>
-        <li><a href="#">Sierra Tequila Milenario Blanco (41.5%)</a></li>
-        <li><a href="#">Sierra Tequila Milenario Fumado (41.5%)</a></li>
-        <li><a href="#">Sierra Tequila Milenario Resposado (41.5%)</a></li>
-        <li><a href="#">Sierra Tequila Resposado (38%)</a></li>
-        <li><a href="#">Sierra Tequila Silver (38%)</a></li>
-        <li><a href="#">Single Malt Glenfiddich Fire & Cane (43%)</a></li>
-        <li><a href="#">Single Malt Glenfiddich IPA (43%)</a></li>
-        <li><a href="#">Single Malt Glenfiddich Project XX (47%)</a></li>
-        <li><a href="#">Single Malt Glenfiddich 12 YO (40%)</a></li>
-        <li><a href="#">Single Malt Glenfiddich 15 YO (40%)</a></li>
-        <li><a href="#">Single Malt Glenfiddich 18 YO (40%)</a></li>
-        <li><a href="#">Single Malt Glenfiddich 21 YO (40%)</a></li>
-        <li><a href="#">Single Malt Glenfiddich 23 YO (40%)</a></li>
-        <li><a href="#">Single Malt Glenfiddich 26 YO (40%)</a></li>
-        <li><a href="#">Single Malt Glenfiddich 30 YO (40%)</a></li>
-        <li><a href="#">Soave (12.5%)</a></li>
-        <li><a href="#">Soplica Cytryna-Kwiat Bzu (30%)</a></li>
-        <li><a href="#">Spolica Cytryna-Mięta (30%)</a></li>
-        <li><a href="#">Spolica Cytryna-Malina (28%)</a></li>
-        <li><a href="#">Soplica Cytryna-Pigwa (30%)</a></li>
-        <li><a href="#">Spolica Cytrynowa z nutą miodu (28%)</a></li>
-        <li><a href="#">Soplica Czarna Porzeczka (30%)</a></li>
-        <li><a href="#">Soplica Jabłkowa (30%)</a></li>
-        <li><a href="#">Soplica Jagodowa (32%)</a></li>
-        <li><a href="#">Soplica Kawowa (25%)</a></li>
-        <li><a href="#">Soplica Malinowa (28%)</a></li>
-        <li><a href="#">Soplica Mirabelkowa (28%)</a></li>
-        <li><a href="#">Soplica Morelowa (30%)</a></li>
-        <li><a href="#">Soplica Orzech Laskowy (28%)</a></li>
-        <li><a href="#">Soplica Orzech Włoski (30%)</a></li>
-        <li><a href="#">Soplica O Smaku Migdała w Karmelu (25%)</a></li>
-        <li><a href="#">Soplica O Smaku Migdała w Karmelu (25%)</a></li>
-        <li><a href="#">Soplica O Smaku Orzecha w Czekoladzie (25%)</a></li>
-        <li><a href="#">Soplica O Smaku Wiśni w Czekoladzie (25%)</a></li>
-        <li><a href="#">Soplica Pigwowa (28%)</a></li>
-        <li><a href="#">Soplica Przepalana (36%)</a></li>
-        <li><a href="#">Soplica Przepalana Z Suszem (36%)</a></li>
-        <li><a href="#">Soplica Śliwkowa (28%)</a></li>
-        <li><a href="#">Soplica Staropolska (37.5%)</a></li>
-        <li><a href="#">Soplica Szlachetna (40%)</a></li>
-        <li><a href="#">Soplica Truskawkowa (30%)</a></li>
-        <li><a href="#">Soplica Wiśniowa (28%)</a></li>
-        <li><a href="#">Soplica Żurawinowa (30%)</a></li>
-        <li><a href="#">Spier Creative Block 2 (13.6%)</a></li>
-        <li><a href="#">Spier Creative Block 5 (14.5%)</a></li>
-        <li><a href="#">Spier Discover Chenin Blanc (12.9%)</a></li>
-        <li><a href="#">Spier Discover Medium Sweet (10.5%)</a></li>
-        <li><a href="#">Spier Discover Pinotage (14.5%)</a></li>
-        <li><a href="#">Spier Discover Rose (13%)</a></li>
-        <li><a href="#">Spirytus Nalewkowy (60%)</a></li>
-        <li><a href="#">St Remy VSOP (40%)</a></li>
-        <li><a href="#">St Remy XO (40%)</a></li>
-        <li><a href="#">Taittinger Brut (12.5%)</a></li>
-        <li><a href="#">Torres 20 YO (40%)</a></li>
-        <li><a href="#">Torres 15 YO (40%)</a></li>
-        <li><a href="#">Torres 10 YO (38%)</a></li>
-        <li><a href="#">Torres 5 YO (38%)</a></li>
-        <li><a href="#">Torres Spiced (35%)</a></li>
-        <li><a href="#">Turtle Dreaming Sauvignon Blanc (12%)</a></li>
-        <li><a href="#">Turtle Dreaming Semillon (12%)</a></li>
-        <li><a href="#">Tullamore D.E.W. Cider Cask (40%)</a></li>
-        <li><a href="#">Tullamore D.E.W. Original (40%)</a></li>
-        <li><a href="#">Tullamore D.E.W. Rum Cask (43%)</a></li>
-        <li><a href="#">Tullamore D.E.W. 18 YO (41.3%)</a></li>
-        <li><a href="#">Tullamore D.E.W. 14 YO (41.3%)</a></li>
-        <li><a href="#">Tullamore D.E.W. 12 YO (40%)</a></li>
-        <li><a href="#">Wild Turkey 81 (40.5%)</a></li>
-        <li><a href="#">Wild Turkey 101 (50.5%)</a></li>
-        <li><a href="#">Wild Turkey American Honey (35.5%)</a></li>
-        <li><a href="#">Wild Turkey Longbranch (43%)</a></li>
-        <li><a href="#">Wild Turkey Rare Breed (58.4%)</a></li>
-        <li><a href="#">Wild Turkey Straight Rye (40.5%)</a></li>
-        <li><a href="#">Verdeo (13%)</a></li>
-        <li><a href="#">Żurawie (40%)</a></li>
-        <li><a href="#">Żubrówka Biała (40%)</a></li>
-        <li><a href="#">Żubrówka z Nutą Jałowca (37.5%)</a></li>
-        <li><a href="#">Żubrówka z Nutą Mięty (37.5%)</a></li>
-        <li><a href="#">Żubrówka Bison Grass (37.5%)</a></li>
-        <li><a href="#">Żubrówka Bison Grass Dzika Czereśnia (32.5%)</a></li>
-        <li><a href="#">Żubrówka Bison Grass Leśna Poziomka (32.5%)</a></li>
-        <li><a href="#">Żubrówka Bison Grass Rajskie Jabłko (32.5%)</a></li>
-        <li><a href="#">Żubrówka Czarna (40%)</a></li>
-        <li><a href="#">Żubrówka Czarna Leżakowana w beczkach z dębu (40%)</a></li>
-        <li><a href="#">Żubrówka Czarna Leżakowana w beczkach z jesionu (40%)</a></li>
-        <li><a href="#">Żubrówka Pędy Sosny (37.5%)</a></li>
-        <li><a href="#">Żytniówka (38%)</a></li>
-    </ul>
-</section>
+        </div>
+    </div>
+</form>
 </body>
 <script>
 
@@ -580,7 +146,7 @@
         });
     });
 
-    function callAll(){
+    function callAll() {
         radioValueAlcoholMetabolysm();
         radioValueFoodParameter();
         radioValueSex();
@@ -618,30 +184,9 @@
         var ele = document.getElementsByName('field_name[]');
         var ele1 = document.getElementsByName('field_percentage[]')
         for (let i = 0; i < ele.length; i++) {
-            sum += ele[i].value * ele1[i].value/100;
+            sum += ele[i].value * ele1[i].value / 100;
         }
         document.getElementById("amount-of-alcohol").value = sum;
-    }
-</script>
-<script>
-    function myFunction() {
-        // Declare variables
-        var input, filter, ul, li, a, i, txtValue;
-        input = document.getElementById('myInput');
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("myUL");
-        li = ul.getElementsByTagName('li');
-
-        // Loop through all list items, and hide those who don't match the search query
-        for (i = 0; i < li.length; i++) {
-            a = li[i].getElementsByTagName("a")[0];
-            txtValue = a.textContent || a.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
-            } else {
-                li[i].style.display = "none";
-            }
-        }
     }
 </script>
 </html>
