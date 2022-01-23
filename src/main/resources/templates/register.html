@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Register</title>
+    <link th:href="@{register.css}" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+          integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+            integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <a href="/" class="navbar-brand">Calculator</a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="/list" class="nav-link">List of alcohols</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link">Login</a>
+            </li>
+            <li class="nav-item">
+                <a href="/register" class="nav-link">Register</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<form class="main-form needs-validation" novalidate action="#" enctype="multipart/form-data" th:action="@{/create-account}" th:object="${registerRequest}" method="post" id="form">
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" class="form-control" minlength="5" maxlength="20"
+                       th:field="*{username}" required>
+                <div class="invalid-feedback">Minimal length of username is 5 and maximal is 20 characters</div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" class="form-control"
+                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" th:field="*{email}" required>
+                <div class="invalid-feedback">Please enter valid email</div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="form-control" name="password" minlength="6" maxlength="30"
+                       th:field="*{password}" required>
+                <div class="invalid-feedback">Minimal length of password is 6 characters</div>
+            </div>
+            <label for="weight">Weight</label>
+            <div class="input-group">
+                <input type="number" step="0.5" name="weight" id="weight" class="form-control" min="1"
+                       th:field="*{weight}" required>
+                <div class="input-group-append">
+                    <span class="input-group-text"> kg </span>
+                </div>
+                <div class="invalid-feedback">Please enter the correct weight</div>
+            </div>
+            <label for="height">Height</label>
+            <div class="input-group">
+                <input type="number" step="0.5" name="height" id="height" class="form-control" min="1"
+                       th:field="*{height}" required>
+                <div class="input-group-append">
+                    <span class="input-group-text"> m </span>
+                </div>
+                <div class="invalid-feedback">Please enter the correct height</div>
+            </div>
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" step="1" name="age" id="age" class="form-control" min="18" th:field="*{age}"
+                       required>
+                <div class="invalid-feedback">Please enter the correct age</div>
+            </div>
+            <p>Gender: </p>
+            <div class="form-check">
+                <input class="radio" type="radio" name="formS" id="male" value="true" onclick="radioValueSex()"
+                       required>
+                <label for="male">male</label>
+
+                <input class="radio" type="radio" name="formS" id="female" value="false" onclick="radioValueSex()"
+                       required>
+                <label for="male">female</label>
+
+                <div class="invalid-feedback">Please choose your gender</div>
+            </div>
+        </div>
+        <p><input id="sex" type="hidden" th:field="*{sex}"/></p>
+    </div>
+    <p><input class="btn btn-primary" type="submit" value="Submit" onclick="callAll()">
+        <input class="btn btn-danger" type="reset" value="Reset"/>
+    </p>
+</form>
+<script>
+    var form = document.querySelector('.needs-validation');
+
+    form.addEventListener('submit', function (event) {
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+    })
+
+    function radioValueSex() {
+        var ele = document.getElementsByName('formS');
+
+        for (let i = 0; i < ele.length; i++) {
+            if (ele[i].checked)
+                document.getElementById("sex").value = ele[i].value;
+        }
+    }
+</script>
+</body>
+</html>

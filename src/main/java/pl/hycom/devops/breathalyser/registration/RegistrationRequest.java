@@ -1,12 +1,11 @@
 package pl.hycom.devops.breathalyser.registration;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
 @ToString
 public class RegistrationRequest {

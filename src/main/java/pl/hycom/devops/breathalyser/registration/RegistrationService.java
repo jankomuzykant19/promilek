@@ -1,6 +1,7 @@
 package pl.hycom.devops.breathalyser.registration;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.hycom.devops.breathalyser.email.EmailSender;
